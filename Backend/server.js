@@ -3,19 +3,14 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const fileUpload = require('express-fileupload');
 const models = require('./Models');
+const swaggerOpts = require('./Utils/swaggerOptions').getOptions(__dirname);
 
 const app = express();
-
+const expressSwagger = require('express-swagger-generator')(app);
+expressSwagger(swaggerOpts);
 
 app.use(bodyParser.json({limit: '50mb', extended: true}));
 app.use(bodyParser.urlencoded({limit: '50mb', extended: false }));
-
-//const {initialize, authenticate} = require('./middlewares/passport');
-
-
-// Constants
-const PORT = 3000;
-const HOST = '0.0.0.0';
 
 
 app.use(function (req, res, next) {
@@ -38,6 +33,8 @@ app.use(fileUpload({
 }));
 
 
+app.use("/v1/hello", require('./Routes/hello'));
+
 const server =  require('http').Server(app);
 
 
@@ -47,8 +44,8 @@ models.sequelize.authenticate()
         models.sequelize.query('SET FOREIGN_KEY_CHECKS = 0', {raw: true}).then((results) => {
             models.sequelize.sync({force:false, alter:true}).then(() => {
                 models.sequelize.query('SET FOREIGN_KEY_CHECKS = 1', {raw: true}).then((results) => {
-                    server.listen(PORT, HOST, () => {
-                        console.log(`Running on http://${HOST}:${PORT}`);
+                    server.listen(process.env.APP_PORT, process.env.APP_HOST, () => {
+                        console.log(`Running on http://${process.env.APP_HOST}:${process.env.APP_PORT}`);
                     });
                 });
             }).catch((err) => {
