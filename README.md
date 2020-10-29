@@ -9,6 +9,8 @@
     to create a fresh node_modules/ folder with required packages
     
 ### Step 2 : Running Application 
+
+-------------------------------------------------
     For development purposes;
     
         You should prepare environment settings based on sample.env file. 
@@ -20,3 +22,6 @@
     For Production purposes;
     
         This is a secret area.
+        
+## Swagger
+    You can find swagger at http://HOST:PORT/api-docs
