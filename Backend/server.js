@@ -3,7 +3,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const fileUpload = require('express-fileupload');
 const models = require('./Models');
-const swaggerOpts = require('./Utils/swaggerOptions').getOptions(__dirname);
+const swaggerOpts = require('./Utils/Swagger/swaggerUtils').getOptions(__dirname);
 
 const app = express();
 const expressSwagger = require('express-swagger-generator')(app);
@@ -34,6 +34,7 @@ app.use(fileUpload({
 
 
 app.use("/v1/hello", require('./Routes/hello'));
+app.use("/v1/auth", require('./Routes/auth'));
 
 const server =  require('http').Server(app);
 

@@ -1,6 +1,3 @@
-
-
-
 module.exports = {
     getOptions : (baseDir) => {
         return {
@@ -30,4 +27,4 @@ module.exports = {
             files: ['./Routes/**/*.js'] //Path to the API handle folder
         };
     }
-}
+};
