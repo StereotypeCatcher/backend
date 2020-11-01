@@ -26,7 +26,7 @@ const sequelize = new Sequelize({
             ca: process.env.DB_CA ||  fs.readFileSync(__dirname+ '/../db_certs/' + 'ca.pem'),
         }
     } : {supportBigNumbers: true},
-    logging: false,
+    logging: true,
     pool: {
         max: 30,
         min: 0,
@@ -40,7 +40,8 @@ fs.readdirSync(__dirname)
         return (file.indexOf('.') !== 0) && (file !== basename) && (file.slice(-3) === '.js'); // Gather all files that ends with .js
     })
     .forEach(file => {
-        model = sequelize['import'](path.join(__dirname, file)); // import files one by one as sequelize model.
+        model = require(path.join(__dirname, file))(sequelize, Sequelize.DataTypes)
+        //model = sequelize['import'](path.join(__dirname, file)); // import files one by one as sequelize model.
         db[model.name] = model;
     });
 
